@@ -1,0 +1,48 @@
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="board">
+  
+  </div>
+</body>
+
+
+<script>
+var board = "";
+function createBoard(){
+  for(var row_iterator = 1; row_iterator<=9; row_iterator++){
+    for(var column_iterator = 1; column_iterator<=9; column_iterator++){
+      board += "<div class='cell row"+row_iterator+" column"+column_iterator+"'><input type='text' /></div>";
+    }
+  }
+
+  $('#board').html(board);
+  addSection();
+}
+
+//console.log(board);
+
+function addSection(){
+  var section_iterator = 1;
+  for(var row_iterator = 1; row_iterator<=9; row_iterator++){
+     if(row_iterator<=3)
+      section_iterator=1;
+    else if(row_iterator>3 && row_iterator<=6)
+      section_iterator=4;
+    else if(row_iterator>6 && row_iterator<=9)
+      section_iterator=7;
+    for(var column_iterator = 1; column_iterator<=9; column_iterator++){
+      $('.row'+row_iterator+'.column'+column_iterator).addClass('section'+section_iterator);
+      if(column_iterator %3==0)
+        section_iterator++;  
+    }
+  }
+
+}
+
+createBoard();
+</script>
+</html>

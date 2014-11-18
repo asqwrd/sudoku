@@ -1,0 +1,76 @@
+#board{
+	width:70%;
+	height:70%;
+  padding:0;
+  margin:auto;
+}
+
+.column1,.column2,.column3,.column4,.column5,.column6,.column7,.column8,.column9{
+  float:left;
+  width:10%;
+  border-right:1px solid #000;
+  position:relative;
+
+}
+.column1{
+ border-left:1px solid #000;
+}
+
+.row1,.row2,.row3,.row4,.row5,.row6,.row7,.row8,.row9{
+  border-bottom:1px solid #000;
+}
+.row1{
+  border-top:1px solid #000;
+}
+
+#board input{
+  width:100%;
+  height:100%;
+  border:0;
+  position:absolute;
+  text-align:center;
+  font-size:1.5rem;
+}
+
+.section1 input{
+  background:#666;
+
+}
+.section2 input{
+  background:#777;
+
+}
+.section3 input{
+  background:#888;
+
+}
+.section4 input{
+  background:#999;
+
+}
+.section5 input{
+  background:#aaa;
+
+}
+.section6 input{
+  background:#bbb;
+
+}
+.section7 input{
+  background:#ccc;
+
+}
+.section8 input{
+  background:#ddd;
+
+}
+.section9 input{
+  background:#eee;
+
+}
+
+.cell:after{
+  content:"";
+  display:block;
+  padding-top:65%;
+}
