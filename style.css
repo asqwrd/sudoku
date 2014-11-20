@@ -1,6 +1,8 @@
 html,body{
   padding:0;
   margin:0;
+  font-family:'Roboto';
+  overflow:hidden;
 }
 .header{
   width:100%;
@@ -17,6 +19,7 @@ html,body{
   position:absolute;
   left:0;
   right:0;
+  font-weight:100;
 }
 .content{
   background:#222;
@@ -32,6 +35,25 @@ html,body{
   width:100%;
   height:15%;
   background:#62b989;
+}
+
+.controls ul{
+  display:block;
+  padding:0;
+  margin:0;
+  list-style:none;
+  width:100%;
+  height:100%;
+  text-align:center;
+  color:#fff;
+}
+.controls ul li{
+  width:50%;
+  float:left;
+  display:inline-block;
+  padding:3%;
+  box-sizing:border-box;
+
 }
 
 #board{
@@ -56,8 +78,22 @@ html,body{
   font-size:1.5rem;
   border-left: 1px solid #444;
   border-top: 1px solid #444;
+  font-weight:100;
 }
 
+#board input:disabled{
+  color:#000;
+  font-weight:700;
+}
+
+#board input.section1_duplicates,#board input.section2_duplicates,#board input.section3_duplicates,#board input.section4_duplicates,#board input.section5_duplicates,#board input.section6_duplicates,#board input.section7_duplicates,#board input.section8_duplicates,#board input.section9_duplicates,#board input.row1_duplicates,#board input.row2_duplicates,#board input.row3_duplicates,#board input.row4_duplicates,#board input.row5_duplicates,#board input.row6_duplicates,#board input.row7_duplicates,#board input.row8_duplicates,#board input.row9_duplicates,#board input.column1_duplicates,#board input.column2_duplicates,#board input.column3_duplicates,#board input.column4_duplicates,#board input.column5_duplicates,#board input.column6_duplicates,#board input.column7_duplicates,#board input.column8_duplicates,#board input.column9_duplicates{
+  background: rgb(253, 70, 70);
+  color: #fff;
+}
+
+.cell input{
+  color:#79E4A9;
+}
 .section1 input{
   background:#666;
 
@@ -84,14 +120,17 @@ html,body{
 }
 .section7 input{
   background:#ccc;
+  color:#30B85F;
 
 }
 .section8 input{
   background:#ddd;
+  color:#30B85F;
 
 }
 .section9 input{
   background:#eee;
+  color:#30B85F;
 
 }
 

@@ -2,31 +2,47 @@
 <head>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <link rel="stylesheet" href="style.css">
+  <link href="http://fonts.googleapis.com/css?family=Roboto:100italic,100,300italic,300,400italic,400,500italic,500,700italic,700,900italic,900" rel="stylesheet" type="text/css">
 </head>
 <body>
   <header class="header"><h1>Sudoku</h1></header>
   <section class="content">
-    <div id="board"></div>
+    
   </section>
- <nav class="controls"></nav>
+ <nav class="controls">
+  <ul>
+    <li>New Game</li>
+    <li>Check Answers</li>
+  </ul>
+ </nav>
 </body>
 
 
 <script>
-var board = "";
+var sectionArray = [];
+var rowArray = [];
+var columnArray = [];
+
+//Function to initialize the game
 function createBoard(){
+  var boardHTML = "";
   for(var row_iterator = 1; row_iterator<=9; row_iterator++){
     for(var column_iterator = 1; column_iterator<=9; column_iterator++){
-      board += "<div class='cell row"+row_iterator+" column"+column_iterator+"'><input type='text' /></div>";
+      boardHTML += "<div class='cell row"+row_iterator+" column"+column_iterator+"'><input maxlength=1 type='text' onkeypress='return event.charCode >= 49 && event.charCode <= 57'/></div>";
     }
   }
-
-  $('#board').html(board);
+  
+  $('.content').html('<div id="board"></div>');
+  $('#board').html(boardHTML);
   addSection();
+  generateBoard();
+  getSections();
+  getRows();
+  getColumns();
+  validateInput();
 }
 
-//console.log(board);
-
+//group rows and columns into 9 sections by adding a section class
 function addSection(){
   var section_iterator = 1;
   for(var row_iterator = 1; row_iterator<=9; row_iterator++){
@@ -43,6 +59,260 @@ function addSection(){
     }
   }
 
+}
+
+//get all the input values in sections
+function getSections(){
+  for(var section_iterator = 1; section_iterator<=9; section_iterator++){
+   var section = $('.section'+section_iterator+' input').toArray();
+   sectionArray['section'+section_iterator] =[];
+   section.forEach(function(input){
+      if(input.value !=="")
+        sectionArray['section'+section_iterator].push(input.value);
+    });
+    if(hasDuplicates(sectionArray['section'+section_iterator])){
+      section.forEach(function(input){
+        if(input.value == hasDuplicatesValue(sectionArray['section'+section_iterator]))
+          $(input).addClass('section'+section_iterator+'_duplicates');
+      
+      });
+    }
+  }
+}
+
+//get all the input values in rows
+function getRows(){
+  for(var row_iterator = 1; row_iterator<=9; row_iterator++){
+   var row = $('.row'+row_iterator+' input').toArray();
+   rowArray['row'+row_iterator] =[];
+   row.forEach(function(input){
+      if(input.value !=="")
+        rowArray['row'+row_iterator].push(input.value);
+    });
+    if(hasDuplicates(rowArray['row'+row_iterator])){
+      row.forEach(function(input){
+        if(input.value == hasDuplicatesValue(rowArray['row'+row_iterator]))
+          $(input).addClass('row'+row_iterator+'_duplicates');
+      });
+    }
+    
+  }
+}
+
+//get all the input values in columns
+function getColumns(){
+  for(var column_iterator = 1; column_iterator<=9; column_iterator++){
+   var column = $('.column'+column_iterator+' input').toArray();
+   columnArray['column'+column_iterator] =[];
+   column.forEach(function(input){
+      if(input.value !=="")
+        columnArray['column'+column_iterator].push(input.value);
+    });
+  
+    if(hasDuplicates(columnArray['column'+column_iterator])){
+      column.forEach(function(input){
+        if(input.value == hasDuplicatesValue(columnArray['column'+column_iterator]))
+          $(input).addClass('column'+column_iterator+'_duplicates');
+      
+      });
+    }
+  }
+}
+
+function validateInput(){
+ $('.cell input').on('keyup',function(e){
+    var self = this;
+    var value = this.value;
+    var section = $(this).parent().attr('class').split(" ")[3];
+    var row = $(this).parent().attr('class').split(" ")[1];
+    var column = $(this).parent().attr('class').split(" ")[2];
+    //if input is deleted
+    if(e.keyCode == 8){
+      var duplicateSectionArray = [];
+      var duplicateRowArray = [];
+      var duplicateColumnArray = [];
+      
+      //recheck sections for duplicates
+      var sectionValues = $("."+section+" input").toArray();
+      sectionValues.forEach(function(input){
+          if($(input).hasClass(section+'_duplicates'))
+            duplicateSectionArray.push(input.value);
+      
+      });
+      if(!hasDuplicates(duplicateSectionArray)){
+         $("."+section+" input").removeClass(section+'_duplicates');
+      }
+      
+      //recheck rows for duplicates
+      var rowValues = $("."+row+" input").toArray();
+      rowValues.forEach(function(input){
+          if($(input).hasClass(row+'_duplicates'))
+            duplicateRowArray.push(input.value);
+      
+      });
+      if(!hasDuplicates(duplicateRowArray)){
+         $("."+row+" input").removeClass(row+'_duplicates');
+      }
+      
+      //recheck columns for duplicates
+      var columnValues = $("."+column+" input").toArray();
+      columnValues.forEach(function(input){
+          if($(input).hasClass(column+'_duplicates'))
+            duplicateColumnArray.push(input.value);
+      
+      });
+      if(!hasDuplicates(duplicateColumnArray)){
+         $("."+column+" input").removeClass(column+'_duplicates');
+      }
+      
+      //get values of board based on inputs
+      getSections();
+      getRows();
+      getColumns();
+    }
+    
+    //check sections, rows, and columns for duplicates
+    if(sectionArray[section].indexOf(this.value)>=0){
+      var sectionValues = $("."+section+" input").toArray();
+      sectionValues.forEach(function(input){
+        if(input.value == self.value)
+          $(input).addClass(section+'_duplicates');
+      
+      });
+    }else if(rowArray[row].indexOf(this.value)>=0){
+      var rowValues = $("."+row+" input").toArray();
+      rowValues.forEach(function(input){
+        if(input.value == self.value)
+          $(input).addClass(row+'_duplicates');
+      
+      });
+    }else if(columnArray[column].indexOf(this.value)>=0){
+      var columnValues = $("."+column+" input").toArray();
+      columnValues.forEach(function(input){
+        if(input.value == self.value)
+          $(input).addClass(column+'_duplicates');
+      
+      });
+    }else{
+      //update sectionArray, rowArray, and columnArray with new inputs on the board
+      getSections();
+      getRows();
+      getColumns();
+    }
+ 
+ });
+}
+
+
+function generateBoard(){
+  var rowInputArray = [];
+  var columnInputArray = [];
+  var sectionInputArray = [];
+  var retry= false;
+  var matrix = matrixValues();
+  var unsolved = unsolvedMatrix(matrix);
+  var i = 0;
+  for(var section_iterator = 1; section_iterator<=9; section_iterator++){          
+    for(var row_iterator = 1; row_iterator<=9; row_iterator++){         
+      for(var column_iterator = 1; column_iterator<=9; column_iterator++){
+        if(unsolved[i]>0){
+          $('.section'+section_iterator+'.row'+row_iterator+'.column'+column_iterator+' input').val(unsolved[i]);
+          $('.section'+section_iterator+'.row'+row_iterator+'.column'+column_iterator+' input').prop('disabled', true);
+        }
+        i++;
+      }
+    }
+    i=0;
+  }
+}
+
+
+//Create board with solution
+function matrixValues(){
+  var matrix = [];
+  //create matrix with simple sudoku values in order
+  for (var i = 0; i < 9; i++){
+    for (var j = 0; j < 9; j++){
+      matrix[i * 9 + j] = (i*3 + Math.floor(i/3) + j) % 9 + 1; 
+    }
+  }
+  
+  //shuffle columns of each section
+  for (var s = 0; s < 42; s++) {
+			var random1 = Math.floor(Math.random() * 3);
+			var random2 = Math.floor(Math.random() * 3);
+
+			for(var row = 0; row < 9; row++) {
+				var tmp = matrix[row * 9 + (s % 3 * 3 + random1)];
+				matrix[row * 9 + (s % 3 * 3 + random1)] = matrix[row * 9 + (s % 3 * 3 + random2)];
+				matrix[row * 9 + (s % 3 * 3 + random2)] = tmp;
+			}
+	}
+  
+  //shuffle rows of each section
+  for (var s = 0; s < 42; s++) {
+			var r1 = Math.floor(Math.random() * 3);
+			var r2 = Math.floor(Math.random() * 3);
+
+			for(var col = 0; col < 9; col++){
+				var tmp = matrix[(s % 3 * 3 + r1) * 9 + col];
+				matrix[(s % 3 * 3 + r1) * 9 + col] = matrix[(s % 3 * 3 + r2) * 9 + col];
+				matrix[(s % 3 * 3 + r2) * 9 + col] = tmp;
+			}
+	}
+  return matrix;
+        
+
+}
+
+//randomly hide certain cells on board
+function unsolvedMatrix(matrix){
+    var hide = [];
+		for(var i = 0; i < 81; i++)
+			hide[i] = matrix[i];
+
+		for (var i = 0; i < 3; i++) {
+			for (var j = 0; j < 3; j++) {
+				for (var k = 0; k < 5; k++) {
+					var random;
+					do {
+						random = Math.floor(Math.random() * 9);
+					}
+					while(hide[(i * 3 + Math.floor(random / 3)) * 9 + j * 3 + random % 3] == 0);
+
+					hide[(i * 3 + Math.floor(random / 3)) * 9 + j * 3 + random % 3] = 0;
+				}
+			}
+		}
+    return hide;
+
+}
+
+//return true if array has duplicates.  Useful for checking the inputs on the board
+function hasDuplicates(array) {
+    var valuesSoFar = {};
+    for (var i = 0; i < array.length; ++i) {
+        var value = array[i];
+        if (Object.prototype.hasOwnProperty.call(valuesSoFar, value)) {
+            return true;
+        }
+        valuesSoFar[value] = true;
+    }
+    return false;
+}
+
+
+//return the duplicate value. Useful if checking duplicate value up agains other values in row, section, or column
+function hasDuplicatesValue(array) {
+    var valuesSoFar = {};
+    for (var i = 0; i < array.length; ++i) {
+        var value = array[i];
+        if (Object.prototype.hasOwnProperty.call(valuesSoFar, value)) {
+            return value;
+        }
+        valuesSoFar[value] = true;
+    }
+    return;
 }
 
 createBoard();
