@@ -1,0 +1,255 @@
+html,body{
+  padding:0;
+  margin:0;
+  font-family:'Roboto';
+  overflow:hidden;
+}
+
+#solved{
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  top:0;
+  left:0;
+  color:#fff;
+  text-align:center;
+  z-index:3;
+  display:none;
+}
+
+#solved button{
+  position: absolute;
+  margin: auto;
+  top: 12rem;
+  bottom: 0;
+  left:0;
+  right:0;
+  width: 250px;
+  height: 80px;
+  border: 0;
+  color: #fff;
+  background:#62b989;
+  cursor:pointer;
+  font-size:2rem;
+}
+
+#solved h1{
+  font-size:4rem;
+  height:4rem;
+  font-weight:300;
+  margin:auto;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  
+}
+.header{
+  width:100%;
+  height:10%;
+  background:#333;
+  text-align:center;
+  position:relative;
+}
+
+.header h1{
+  font-size: 2rem;
+  height: 2rem;
+  color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  font-weight: 300;
+  bottom: 0;
+  margin: auto;
+}
+.content{
+  background:#222;
+  width:100%;
+  height:75%;
+  margin:0;
+  box-sizing:border-box;
+  position:relative;
+  padding:1%;
+}
+
+.controls{
+  width:100%;
+  height:15%;
+}
+
+.controls ul{
+  display:block;
+  padding:0;
+  margin:0;
+  list-style:none;
+  width:100%;
+  height:100%;
+  text-align:center;
+  color:#fff;
+}
+.controls ul li{
+  width:50%;
+  height:100%;
+  float:left;
+  display:inline-block;
+  padding:3%;
+  box-sizing:border-box;
+  font-weight: 300;
+  position:relative;
+  cursor:pointer;
+  background: #62b989;
+}
+
+.controls ul li:hover, #solved button:hover{
+  background: #457D5E;
+}
+
+.controls ul li p{
+  position:absolute;
+  margin:auto;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  font-size:1.5rem;
+  height:1.5rem;
+}
+
+#board{
+	width:50%;
+  padding:0;
+  margin:1% auto;
+}
+
+
+#board input{
+  width:100%;
+  height:100%;
+  border:0;
+  position:absolute;
+  text-align:center;
+  font-size:1.5rem;
+  border-left: 1px solid #444;
+  border-top: 1px solid #444;
+  font-weight:100;
+}
+
+#board input:disabled{
+  color:#000;
+  font-weight:700;
+}
+
+.cells input{
+  color:#79E4A9;
+}
+.cells:after{
+  content:"";
+  display:block;
+  padding-top:65%;
+}
+
+.column1,.column2,.column3,.column4,.column5,.column6,.column7,.column8,.column9{
+  float:left;
+  width:11.111111111111111111%;
+  position:relative;
+}
+
+#board input.section1_duplicates,#board input.section2_duplicates,#board input.section3_duplicates,#board input.section4_duplicates,#board input.section5_duplicates,#board input.section6_duplicates,#board input.section7_duplicates,#board input.section8_duplicates,#board input.section9_duplicates,#board input.row1_duplicates,#board input.row2_duplicates,#board input.row3_duplicates,#board input.row4_duplicates,#board input.row5_duplicates,#board input.row6_duplicates,#board input.row7_duplicates,#board input.row8_duplicates,#board input.row9_duplicates,#board input.column1_duplicates,#board input.column2_duplicates,#board input.column3_duplicates,#board input.column4_duplicates,#board input.column5_duplicates,#board input.column6_duplicates,#board input.column7_duplicates,#board input.column8_duplicates,#board input.column9_duplicates{
+  background: rgb(253, 70, 70);
+  color: #fff;
+}
+
+
+.section1 input{
+  background:#555;
+
+}
+.section2 input{
+  background:#666;
+
+}
+.section3 input{
+  background:#777;
+
+}
+.section4 input{
+  background:#888;
+
+}
+.section5 input{
+  background:#999;
+
+}
+.section6 input{
+  background:#aaa;
+
+}
+.section7 input{
+  background:#bbb;
+  color:#30B85F;
+
+}
+.section8 input{
+  background:#ccc;
+  color:#30B85F;
+
+}
+.section9 input{
+  background:#ddd;
+  color:#30B85F;
+
+}
+
+
+
+
+/*=================================Responsive section====================================*/
+
+
+@media only screen and (max-width: 63em) {  /* min-width 641px and max-width 1024px, use when QAing tablet-only issues */
+  #solved h1 {
+    font-size: 4rem;
+  }
+  #board {
+    width: 100%;
+    margin: auto;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+  }
+  #board input{
+    font-size:3rem;
+  
+  }
+  .header h1{
+    font-size:3.5rem;
+    height:3.5rem;
+  }
+  .controls ul li p{
+    font-size: 3.5rem;
+    height:3.5rem;
+  }
+  .cells:after {
+    content: "";
+    display: block;
+    padding-top: 100%;
+  }
+
+}
+
+@media only screen and (max-width: 63em) and (orientation:landscape){  /* min-width 641px and max-width 1024px, landscape */
+  .cells:after {
+    content: "";
+    display: block;
+    padding-top: 45%;
+  }
+
+
+}
+
